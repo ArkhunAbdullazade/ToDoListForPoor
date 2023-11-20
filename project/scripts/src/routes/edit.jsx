@@ -12,6 +12,8 @@ export async function action({ request, params }) {
 }
 
 function EditTask() {
+    const { task } = useLoaderData();
+    const navigate = useNavigate();
 
     return (
         <EditTaskForm />

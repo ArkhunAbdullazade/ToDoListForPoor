@@ -13,25 +13,15 @@ function Task() {
         <div id="task">
             <div>
                 <h1>
-                    {task.title ? (
+                    {task.title || task.description ? (
                         <>
-                            {task.title}
+                            {task.title} {task.description}
                         </>
                     ) : (
                         <i>No Title</i>
                     )}{" "}
                 </h1>
-
-                <p>
-                {task.description ? (
-                        <>
-                            {task.description}
-                        </>
-                    ) : (
-                        <i>No Description</i>
-                    )}{" "}
-                </p>
-
+                
             </div>
         </div>
     );
