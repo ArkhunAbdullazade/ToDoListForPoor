@@ -15,9 +15,7 @@ function EditTaskForm() {
 
     const handleSubmit = (e) => { 
         const formData = new FormData(e.target);
-        console.log(formData);
         const updated = Object.fromEntries(formData);
-        console.log(updated);
         
         dispatch(editTask({id: task.id, title: updated.title, description: updated.description}));
     };

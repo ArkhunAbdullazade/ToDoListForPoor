@@ -5,20 +5,21 @@ import {
 } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteTask, completeTask } from "../redux/slices/tasksSlice";
+import { useState } from "react";
 
 function TaskComponent({task}) {
     const dispatch = useDispatch();
+    const [isCompleted, setIsCompleted] = useState(task.completed);
 
-    const handleDeleteClick = (e) => { 
-        dispatch(deleteTask({id: task.id})); 
-
+    const handleDeleteClick = (e) => { dispatch(deleteTask({id: task.id})); };
+    const handleCompletedChange = (e) => { 
+        setIsCompleted(!isCompleted);
+        dispatch(completeTask({id: task.id})); 
     };
-    const handleEditClick = (e) => {  };
-    const handleCompletedChange = (e) => { dispatch(completeTask({id: task.id})); };
 
     return (
         <>
-            <input checked={task.completed} onChange={handleCompletedChange} type="checkbox"/>
+            <input checked={isCompleted} onChange={handleCompletedChange} type="checkbox"/>
             <NavLink
                 to={`tasks/${task.id}`}>
                 {task.title ? (
@@ -30,7 +31,7 @@ function TaskComponent({task}) {
                 )}
             </NavLink>
             <Form action={`tasks/${task.id}/edit`}>
-                    <button onClick={handleEditClick} type="submit">Edit</button>
+                    <button type="submit">Edit</button>
             </Form>
             <Form
                 method="post"

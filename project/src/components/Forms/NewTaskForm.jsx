@@ -1,16 +1,11 @@
-import {    
-    useLoaderData,
-    useSubmit,
+import {
     Form,
-    redirect,
 } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/slices/tasksSlice";
 
 function NewTaskForm() {
     const dispatch = useDispatch();
-    const submit = useSubmit();
-    const { tasks, q } = useLoaderData();
 
     const handleClick = (e) => { dispatch(addTask()); };
 

@@ -10,6 +10,7 @@ import {
 import NewTaskForm from "../components/Forms/NewTaskForm";
 import { matchSorter } from "match-sorter";
 import TaskComponent from "../components/TaskComponent";
+import { useRef, useState } from "react";
 
 export async function action() {
     return redirect(`/`);
@@ -28,7 +29,8 @@ function Root() {
     const { tasks, q } = useLoaderData();    
     const submit = useSubmit();
     const navigation = useNavigation();
-
+    const [tasksList, setTasksList] = useState(tasks);
+    
     return (
         <>
             <div id="sidebar">
@@ -49,6 +51,17 @@ function Root() {
                         <div className="sr-only" aria-live="polite"></div>
                     </Form>
                     <NewTaskForm />
+                </div>
+                <div>
+                    <button onClick={() => {
+                        setTasksList([...tasks]);
+                    }}>All</button>
+                    <button onClick={() => {
+                        setTasksList([...tasks].filter(task => task.completed));
+                    }}>Completed</button>
+                    <button onClick={() => {
+                        setTasksList([...tasks].filter(task => !task.completed));
+                    }}>Not Completed</button>
                 </div>
                 <nav>
                     {tasks.length ? (
