@@ -38,7 +38,6 @@ export async function getLastTask() {
     let tasks = await getTasks();
     const id = tasks.length - 1;
     await fakeNetwork(`task:${id}`);
-    console.log(tasks);
     return tasks[id] ?? null;
 }
 
@@ -52,10 +51,19 @@ export async function updateTask(id, updates) {
     return task;
 }
 
+export async function completeTask(id) {
+    await fakeNetwork();
+    let tasks = await getTasks();
+    let task = tasks.find((task) => task.id === id);
+    if (!task) throw new Error("No task found for", id);
+    task.completed = !task.completed;
+    await setTasks(tasks);
+    return task;
+}
+
 export async function destroyTask(id) {
     let tasks = await getTasks();
     let index = tasks.findIndex((task) => task.id === id);
-    console.log(index);
     if (index > -1) {
         tasks.splice(index, 1);
         await setTasks(tasks);

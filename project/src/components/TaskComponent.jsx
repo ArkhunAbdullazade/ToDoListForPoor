@@ -2,15 +2,16 @@ import {
     Form,
     NavLink,
     redirect,
+    useFetcher,
 } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteTask, completeTask } from "../redux/slices/tasksSlice";
-import { useState } from "react";
+import DeleteTaskForm from "./Forms/DeleteTaskForm";
 
 function TaskComponent({task}) {
     const dispatch = useDispatch();
 
-    const handleDeleteClick = (e) => { 
+    const handleDeleteClick = async (e) => { 
         dispatch(deleteTask({id: task.id}));
     };
 
@@ -30,31 +31,29 @@ function TaskComponent({task}) {
             <Form action={`tasks/${task.id}/edit`}>
                 <button type="submit">Edit</button>
             </Form>
-            <Form
-                method="post"
-                action={`tasks/${task.id}/destroy`}>
-                <button onClick={handleDeleteClick} type="submit">Delete</button>
-            </Form>
+            <DeleteTaskForm task={task}/>
         </>
     );
 }
 
 function CheckBox({ task }) {
+    const fetcher = useFetcher();
+    const dispatch = useDispatch();
     let isCompleted = task.completed;
+    
+    const handleClick = (e) => { 
+        dispatch(completeTask({id: task.id}));
+    };
 
     return (
-        // <Form method="post">
-        //     <button
-        //         name="isCompleted"
-        //         value={isCompleted ? "false" : "true"}>
-        //         {isCompleted ? "▣" : "▢"}
-        //     </button>
-        // </Form>
-        <button
-            name="isCompleted"
-            value={isCompleted ? "false" : "true"}>
-            {isCompleted ? "▣" : "▢"}
-        </button>
+        <fetcher.Form method="post" action={`tasks/${task.id}/complete`}>
+            <button
+                name="isCompleted"
+                value={isCompleted ? "true" : "false"}
+                onClick={handleClick}>
+                {isCompleted ? "▣" : "▢"}
+            </button>
+        </fetcher.Form>
     );
 }
 

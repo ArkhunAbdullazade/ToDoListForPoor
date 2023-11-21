@@ -13,7 +13,7 @@ function EditTaskForm() {
     const { task } = useLoaderData();
     const navigate = useNavigate(); 
 
-    const handleSubmit = (e) => { 
+    const handleSubmit = async (e) => { 
         const formData = new FormData(e.target);
         const updated = Object.fromEntries(formData);
         

@@ -8,9 +8,9 @@ import { createTask } from "../../tasks";
 function NewTaskForm() {
     const dispatch = useDispatch();
 
-    const handleClick = async (e) => { 
+    const handleClick = async (e) => {
         const task = await createTask();
-        dispatch(addTask(task)); 
+        dispatch(addTask(task));
     };
 
     return (

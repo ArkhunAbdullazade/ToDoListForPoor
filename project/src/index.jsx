@@ -9,7 +9,7 @@ import {
 import './index.css';
 import Root, {
 	loader as rootLoader,
-	action as rootAction
+	action as rootAction,
 } from './routes/root';
 import ErrorPage from './error-page';
 import Task, {
@@ -19,6 +19,7 @@ import EditTask, {
 	action as editTaskAction
 } from './routes/edit';
 import { action as destroyTaskAction } from './routes/destroy';
+import { action as completeTaskAction } from './routes/complete';
 import Index from './routes';
 
 const container = document.getElementById('root');
@@ -46,14 +47,18 @@ const router = createBrowserRouter([
 						loader: taskLoader,
 					},
 					{
-						path: "tasks/:taskId/destroy",
-						action: destroyTaskAction,
-					},
-					{
 						path: "tasks/:taskId/edit",
 						element: <EditTask />,
 						loader: taskLoader,
 						action: editTaskAction,
+					},
+					{
+						path: "tasks/:taskId/destroy",
+						action: destroyTaskAction,
+					},
+					{
+						path: "tasks/:taskId/complete",
+                        action: completeTaskAction
 					},
 				],
 			}
