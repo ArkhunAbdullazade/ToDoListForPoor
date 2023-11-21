@@ -1,22 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
 import { getLastTask } from "../../tasks";
+import { current } from "@reduxjs/toolkit"
 
 export const tasksSlice = createSlice({
     name: "tasks",
     initialState: JSON.parse(localStorage.getItem("tasks")) ?? [],
     reducers: {
-        addTask: (state) => {
-            last = getLastTask();
-            state.unshift(last);
+        addTask: (state, action) => {
+            state.unshift(action.payload);
         },
         deleteTask: (state, action) => {
             const index = state.findIndex(
                 (task) => task.id === action.payload.id
-                );
-                if (index > -1) {
-                    state.splice(index, 1);
-                }   
+            );
+            if (index > -1) {
+                state.splice(index, 1);
+            }   
         },
         editTask: (state, action) => {
             const task = state.find((task) => task.id === action.payload.id);
@@ -27,9 +27,7 @@ export const tasksSlice = createSlice({
         },
         completeTask: (state, action) => {
             const task = state.find((task) => task.id === action.payload.id);
-            if (task) {
-                task.completed = !task.completed;
-            }
+            task.completed = task ? !task.completed : task.completed;
         },
     
     },

@@ -3,11 +3,15 @@ import {
 } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/slices/tasksSlice";
+import { createTask } from "../../tasks";
 
 function NewTaskForm() {
     const dispatch = useDispatch();
 
-    const handleClick = (e) => { dispatch(addTask()); };
+    const handleClick = async (e) => { 
+        const task = await createTask();
+        dispatch(addTask(task)); 
+    };
 
     return (
         <>

@@ -5,15 +5,15 @@ import { v4 as uuid } from "uuid";
 
 export async function getTasks(query) {
     await fakeNetwork(`getTasks:${query}`);
-    let tasks = await localforage.getItem("tasks");
-    if (!tasks) contacts = [];
+    let tasks = JSON.parse(localStorage.getItem("tasks"));
+    if (!tasks) tasks = [];
     if (query) {
         tasks = matchSorter(tasks, query, { keys: ["first", "last"] });
     }
     return tasks;
 }
 
-export async function createTasks() {
+export async function createTask() {
     await fakeNetwork();
     const newTask = {
         id: uuid(),
@@ -24,26 +24,27 @@ export async function createTasks() {
     let tasks = await getTasks();
     tasks.unshift(newTask);
     await setTasks(tasks);
-    return task;
+    return newTask;
 }
 
 export async function getTask(id) {
     await fakeNetwork(`task:${id}`);
-    let tasks = await localforage.getItem("tasks");
+    let tasks = await getTasks();
     let task = tasks.find((task) => task.id === id);
     return task ?? null;
 }
 
 export async function getLastTask() {
+    let tasks = await getTasks();
+    const id = tasks.length - 1;
     await fakeNetwork(`task:${id}`);
-    let tasks = await localforage.getItem("tasks");
-    let last = tasks[tasks.length - 1]
-    return last ?? null;
+    console.log(tasks);
+    return tasks[id] ?? null;
 }
 
 export async function updateTask(id, updates) {
     await fakeNetwork();
-    let tasks = await localforage.getItem("tasks");
+    let tasks = await getTasks();
     let task = tasks.find((task) => task.id === id);
     if (!task) throw new Error("No task found for", id);
     Object.assign(task, updates);
@@ -51,9 +52,10 @@ export async function updateTask(id, updates) {
     return task;
 }
 
-export async function deleteTask(id) {
-    let tasks = await localforage.getItem("tasks");
+export async function destroyTask(id) {
+    let tasks = await getTasks();
     let index = tasks.findIndex((task) => task.id === id);
+    console.log(index);
     if (index > -1) {
         tasks.splice(index, 1);
         await setTasks(tasks);
@@ -68,7 +70,6 @@ function setTasks(tasks) {
 
 // fake a cache so we don't slow  stuff we've already seen
 let fakeCache = {};
-down;
 
 async function fakeNetwork(key) {
     if (!key) {

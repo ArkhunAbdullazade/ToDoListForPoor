@@ -1,8 +1,9 @@
 import { Form, useLoaderData } from "react-router-dom";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { getTask } from "../tasks";
 
 export async function loader({ params }) {
-    let tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
-    const task = tasks.find((task) => task.id === params.taskId);
+    const task = await getTask(params.taskId);
     return { task };
 }
 

@@ -46,15 +46,15 @@ const router = createBrowserRouter([
 						loader: taskLoader,
 					},
 					{
+						path: "tasks/:taskId/destroy",
+						action: destroyTaskAction,
+					},
+					{
 						path: "tasks/:taskId/edit",
 						element: <EditTask />,
 						loader: taskLoader,
 						action: editTaskAction,
 					},
-					{
-						path: "tasks/:taskId/destroy",
-						action: destroyTaskAction,
-					}
 				],
 			}
 		]

@@ -10,26 +10,29 @@ import {
 import NewTaskForm from "../components/Forms/NewTaskForm";
 import { matchSorter } from "match-sorter";
 import TaskComponent from "../components/TaskComponent";
-import { useRef, useState } from "react";
+import { getLastTask } from "../tasks";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export async function action() {
-    return redirect(`/`);
+    const currentTask = await getLastTask();
+    return redirect(`/tasks/${currentTask.id}/edit`);
 }
 
 export async function loader({ request }) {
     const url = new URL(request.url);
     const q = url.searchParams.get("q");
-    let tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
-    if(q) tasks = matchSorter(tasks, q, { keys: ["title", "description"] });
-
-    return { tasks, q };
+    return { q };
 }
 
 function Root() {
-    const { tasks, q } = useLoaderData();    
+    const { q } = useLoaderData();
+    const tasks = useSelector(state => state.tasksReducer);
+    const filteredTasks = q ? matchSorter(tasks, q, { keys: ["title", "description"] }) : tasks;
+    const [ taskToShow, setTaskToShow ] = useState(filteredTasks);
     const submit = useSubmit();
     const navigation = useNavigation();
-    const [tasksList, setTasksList] = useState(tasks);
+    
     
     return (
         <>
@@ -54,19 +57,19 @@ function Root() {
                 </div>
                 <div>
                     <button onClick={() => {
-                        setTasksList([...tasks]);
+                        setTaskToShow([...filteredTasks]);
                     }}>All</button>
                     <button onClick={() => {
-                        setTasksList([...tasks].filter(task => task.completed));
+                        setTaskToShow([...filteredTasks].filter(task => task.completed));
                     }}>Completed</button>
                     <button onClick={() => {
-                        setTasksList([...tasks].filter(task => !task.completed));
+                        setTaskToShow([...filteredTasks].filter(task => !task.completed));
                     }}>Not Completed</button>
                 </div>
                 <nav>
-                    {tasks.length ? (
+                    {filteredTasks.length ? (
                         <ul>
-                            {tasks.map((task) => (
+                            {filteredTasks.map((task) => (
                                 <li key={task.id}>
                                     <TaskComponent task={task} />
                                 </li>
