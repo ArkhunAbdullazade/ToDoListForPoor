@@ -29,7 +29,7 @@ function Root() {
     const { q } = useLoaderData();
     const tasks = useSelector(state => state.tasksReducer);
     const filteredTasks = q ? matchSorter(tasks, q, { keys: ["title", "description"] }) : tasks;
-    const [ taskToShow, setTaskToShow ] = useState(filteredTasks);
+    // const [ taskToShow, setTaskToShow ] = useState(filteredTasks);
     const submit = useSubmit();
     const navigation = useNavigation();
     

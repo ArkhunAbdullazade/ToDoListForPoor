@@ -32,11 +32,7 @@ function TaskComponent({task}) {
             </Form>
             <Form
                 method="post"
-                action={`tasks/${task.id}/destroy`}
-                onSubmit={(event) => {
-                    if (!window.confirm("Please confirm you want to delete this task."))  {
-                        event.preventDefault();
-                    }}}>
+                action={`tasks/${task.id}/destroy`}>
                 <button onClick={handleDeleteClick} type="submit">Delete</button>
             </Form>
         </>
