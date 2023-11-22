@@ -1,9 +1,9 @@
-import {    
+import {
     useLoaderData,
     useSubmit,
     Form,
     redirect,
-    useNavigate
+    useNavigate,
 } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { editTask } from "../../redux/slices/tasksSlice";
@@ -11,13 +11,19 @@ import { editTask } from "../../redux/slices/tasksSlice";
 function EditTaskForm() {
     const dispatch = useDispatch();
     const { task } = useLoaderData();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
-    const handleSubmit = async (e) => { 
+    const handleSubmit = async (e) => {
         const formData = new FormData(e.target);
         const updated = Object.fromEntries(formData);
-        
-        dispatch(editTask({id: task.id, title: updated.title, description: updated.description}));
+
+        dispatch(
+            editTask({
+                id: task.id,
+                title: updated.title,
+                description: updated.description,
+            })
+        );
     };
 
     return (
@@ -36,12 +42,15 @@ function EditTaskForm() {
                     <br />
                     <span>Description: </span>
                     <br />
-                    <textarea 
+                    <textarea
                         placeholder="Description"
                         aria-label="Description"
                         type="text"
                         name="description"
-                        defaultValue={task.description} cols="24" rows="2"></textarea>
+                        defaultValue={task.description}
+                        cols="24"
+                        rows="2"
+                    ></textarea>
                 </p>
                 <p>
                     <button type="submit">Save</button>
@@ -50,7 +59,9 @@ function EditTaskForm() {
                         onClick={() => {
                             navigate(-1);
                         }}
-                    >Cancel</button>
+                    >
+                        Cancel
+                    </button>
                 </p>
             </Form>
         </>

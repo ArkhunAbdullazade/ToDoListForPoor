@@ -1,7 +1,4 @@
-import {
-    Form, 
-    useSubmit,
-} from "react-router-dom";
+import { Form, useSubmit } from "react-router-dom";
 
 function SearchForm({ query }) {
     const submit = useSubmit();

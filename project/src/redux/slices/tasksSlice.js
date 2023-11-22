@@ -1,7 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uuid } from "uuid";
-import { getLastTask } from "../../tasks";
-import { current } from "@reduxjs/toolkit"
 
 export const tasksSlice = createSlice({
     name: "tasks",
@@ -14,15 +11,16 @@ export const tasksSlice = createSlice({
             const index = state.findIndex(
                 (task) => task.id === action.payload.id
             );
-            if (index > -1) {
+            if (index !== -1) {
                 state.splice(index, 1);
-            }   
+            }
         },
         editTask: (state, action) => {
             const task = state.find((task) => task.id === action.payload.id);
             if (task) {
                 task.title = action.payload.title ?? task.title;
-                task.description = action.payload.description ?? task.description;
+                task.description =
+                    action.payload.description ?? task.description;
             }
         },
         completeTask: (state, action) => {
@@ -31,16 +29,10 @@ export const tasksSlice = createSlice({
                 task.completed = !task.completed;
             }
         },
-    
     },
 });
 
-export const {
-    addTask,
-    deleteTask,
-    editTask,
-    completeTask,
-} = tasksSlice.actions;
+export const { addTask, deleteTask, editTask, completeTask } =
+    tasksSlice.actions;
 
 export default tasksSlice.reducer;
-

@@ -1,37 +1,26 @@
-import {    
-    Form,
-    NavLink,
-    redirect,
-    useFetcher,
-} from "react-router-dom";
+import { Form, NavLink, redirect, useFetcher } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteTask, completeTask } from "../redux/slices/tasksSlice";
 import DeleteTaskForm from "./Forms/DeleteTaskForm";
 
-function TaskComponent({task}) {
+function TaskComponent({ task }) {
     const dispatch = useDispatch();
 
-    const handleDeleteClick = async (e) => { 
-        dispatch(deleteTask({id: task.id}));
+    const handleDeleteClick = async (e) => {
+        dispatch(deleteTask({ id: task.id }));
     };
 
     return (
         <>
             <CheckBox task={task} />
-            <NavLink
-                to={`tasks/${task.id}`}>
-                {task.title ? (
-                    <>
-                        {task.title}
-                    </>
-                ) : (
-                    <i>No Title</i>
-                )}{""}
+            <NavLink to={`tasks/${task.id}`}>
+                {task.title ? <>{task.title}</> : <i>No Title</i>}
+                {""}
             </NavLink>
             <Form action={`tasks/${task.id}/edit`}>
                 <button type="submit">Edit</button>
             </Form>
-            <DeleteTaskForm task={task}/>
+            <DeleteTaskForm task={task} />
         </>
     );
 }
@@ -40,9 +29,9 @@ function CheckBox({ task }) {
     const fetcher = useFetcher();
     const dispatch = useDispatch();
     let isCompleted = task.completed;
-    
-    const handleClick = (e) => { 
-        dispatch(completeTask({id: task.id}));
+
+    const handleClick = (e) => {
+        dispatch(completeTask({ id: task.id }));
     };
 
     return (
@@ -50,7 +39,8 @@ function CheckBox({ task }) {
             <button
                 name="isCompleted"
                 value={isCompleted ? "true" : "false"}
-                onClick={handleClick}>
+                onClick={handleClick}
+            >
                 {isCompleted ? "▣" : "▢"}
             </button>
         </fetcher.Form>

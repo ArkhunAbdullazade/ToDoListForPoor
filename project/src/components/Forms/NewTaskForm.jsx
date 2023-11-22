@@ -1,6 +1,4 @@
-import {
-    Form,
-} from "react-router-dom";
+import { Form } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/slices/tasksSlice";
 import { createTask } from "../../tasks";
@@ -16,7 +14,9 @@ function NewTaskForm() {
     return (
         <>
             <Form method="post">
-                <button onClick={handleClick} type="submit">New</button>
+                <button onClick={handleClick} type="submit">
+                    New
+                </button>
             </Form>
         </>
     );

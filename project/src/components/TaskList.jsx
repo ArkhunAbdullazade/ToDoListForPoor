@@ -1,7 +1,6 @@
 import TaskComponent from "./TaskComponent";
 
-function TaskList({tasks}) {
-
+function TaskList({ tasks }) {
     return (
         <>
             {tasks.length ? (
