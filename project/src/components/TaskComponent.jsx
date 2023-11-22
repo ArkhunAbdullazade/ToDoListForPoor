@@ -6,10 +6,6 @@ import DeleteTaskForm from "./Forms/DeleteTaskForm";
 function TaskComponent({ task }) {
     const dispatch = useDispatch();
 
-    const handleDeleteClick = async (e) => {
-        dispatch(deleteTask({ id: task.id }));
-    };
-
     return (
         <>
             <CheckBox task={task} />
