@@ -4,6 +4,14 @@ To Do List on React
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Significant Packages
+
+Without downloading these packages, you won't be able to run this project:
+
+### `npm install @reduxjs/toolkit react-redux`
+### `npm install react-router-dom match-sorter sort-by`
+### `nmp install uuid`
+
 ## Available Scripts
 
 In the project directory, you can run:
